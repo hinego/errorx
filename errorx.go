@@ -1,7 +1,6 @@
 package errorx
 
 const defaultCode = -1
-const SkipError = 10086996
 
 type CodeError struct {
 	Code int    `json:"code"`
