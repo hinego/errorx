@@ -1,12 +1,12 @@
 package errorx
 
 const defaultCode = -1
+const SkipError = 10086996
 
 type CodeError struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data any    `json:"data,omitempty"`
-	Skip bool   `json:"-"`
 }
 
 type CodeErrorResponse struct {
