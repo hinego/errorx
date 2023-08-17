@@ -13,19 +13,40 @@ type CodeErrorResponse struct {
 	Msg  string `json:"msg"`
 }
 
-func NewCode(code int, msg any, data any) error {
+func Ok(msg string, data ...any) error {
+	var Data any
+	if len(data) > 0 {
+		Data = data[0]
+	} else {
+		Data = nil
+	}
+	return &CodeError{Code: 0, Msg: msg, Data: Data}
+}
+func NewCode(code int, msg any, data ...any) error {
+	var Data any
+	if len(data) > 0 {
+		Data = data[0]
+	} else {
+		Data = nil
+	}
 	switch e := msg.(type) {
 	case error:
-		return &CodeError{Code: code, Msg: e.Error(), Data: data}
+		return &CodeError{Code: code, Msg: e.Error(), Data: Data}
 	case string:
-		return &CodeError{Code: code, Msg: e, Data: data}
+		return &CodeError{Code: code, Msg: e, Data: Data}
 	default:
-		return &CodeError{Code: code, Msg: "never", Data: data}
+		return &CodeError{Code: code, Msg: "never", Data: Data}
 	}
 }
 
-func New(msg any) error {
-	return NewCode(defaultCode, msg, nil)
+func New(msg any, data ...any) error {
+	var Data any
+	if len(data) > 0 {
+		Data = data[0]
+	} else {
+		Data = nil
+	}
+	return NewCode(defaultCode, msg, Data)
 }
 
 func (e *CodeError) Error() string {
